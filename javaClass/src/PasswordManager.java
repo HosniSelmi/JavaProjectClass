@@ -184,7 +184,7 @@ public class PasswordManager implements ActionListener {
                             }
                             else{
                                 //calling put method 
-                                
+                                Crud.savePassword(account_name, acc_pass);
                                 JOptionPane.showMessageDialog(conn2, "Account added Successfully !");
                                 tAcc.setText(null);
                                 tPass.setText(null);
@@ -208,9 +208,15 @@ public class PasswordManager implements ActionListener {
             if (PassSearchBtn ==e.getSource()){
                 try{
                     String acc_name = JOptionPane.showInputDialog("Enter your Account Name");
-                    if (!acc_name.isBlank()) {
-                       
+                    if (!acc_name.isBlank()) {         
                         //calling searching function
+                    	Object pass = Crud.getPassword(acc_name.toLowerCase());
+                        if(pass !=null) {
+                            searchPassArea = new JTextArea(4,5);
+                            textArea(String.valueOf(pass), searchPassArea);
+                            JOptionPane.showMessageDialog(conn1, new JScrollPane(searchPassArea), "Copy your password", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        else JOptionPane.showMessageDialog(conn1, "Account not Found!");
                     }
                 }
                 catch (Exception ex){
@@ -231,6 +237,7 @@ public class PasswordManager implements ActionListener {
                     String acc_name = JOptionPane.showInputDialog("Enter the Account Name");
                     if (!acc_name.isBlank()) {
                         // calling deleting function
+                    	Crud.clearPassword(acc_name.toLowerCase());
                         JOptionPane.showMessageDialog(conn1, "Delete successfully!");
                     }
                     else JOptionPane.showMessageDialog(conn1, "Account not found!", "INFO", JOptionPane.INFORMATION_MESSAGE);
